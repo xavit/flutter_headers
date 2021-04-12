@@ -22,20 +22,32 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
   // Animation
   AnimationController controller;
   Animation<double> rotacion;
+  Animation<double> opacidad;
 
   @override
   void initState() {
     controller = new AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 2000),
+      duration: Duration(milliseconds: 4000),
     );
 
-    rotacion = Tween(begin: 0.0, end: 2.0 * Math.pi).animate(controller);
+    rotacion = Tween(begin: 0.0, end: 2.0 * Math.pi).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.ease,
+      ),
+    );
+
+    opacidad = Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOut,
+    ));
 
     controller.addListener(() {
       print('Status: ${controller.status}');
       if (controller.status == AnimationStatus.completed) {
         controller.reverse();
+        // controller.reset();
       }
     });
 
@@ -54,12 +66,15 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
 
     return AnimatedBuilder(
       animation: controller,
-      // child: child,
-      builder: (BuildContext context, Widget child) {
+      child: _Rectangulo(),
+      builder: (BuildContext context, Widget childRectangulo) {
         print(rotacion.value);
         return Transform.rotate(
           angle: rotacion.value,
-          child: _Rectangulo(),
+          child: Opacity(
+            opacity: opacidad.value,
+            child: childRectangulo,
+          ),
         );
       },
     );
