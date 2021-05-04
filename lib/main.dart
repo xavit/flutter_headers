@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:headers/src/pages/pinteres_page.dart';
+import 'package:headers/src/pages/emergency_page.dart';
+// import 'package:headers/src/pages/pinteres_page.dart';
 // import 'package:headers/src/pages/animaciones_page.dart';
 // import 'package:headers/src/pages/headers_page.dart';
 // import 'package:headers/src/retos/cuadrado_animado_page.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: PinterestPage(),
+      home: EmergencyPage(),
     );
   }
 }
