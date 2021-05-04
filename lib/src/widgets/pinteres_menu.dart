@@ -15,42 +15,61 @@ class PinteresButton {
 class PinteresMenu extends StatelessWidget {
   final bool mostrar;
 
-  PinteresMenu({this.mostrar});
+  final Color backgroundColor;
+  final Color activeColor;
+  final Color inactiveColor;
+  final List<PinteresButton> items;
 
-  final List<PinteresButton> items = [
-    PinteresButton(
-        onPressed: () {
-          print('Icon pie_chart');
-        },
-        icon: Icons.pie_chart),
-    PinteresButton(
-        onPressed: () {
-          print('Icon search');
-        },
-        icon: Icons.search),
-    PinteresButton(
-        onPressed: () {
-          print('Icon notifications');
-        },
-        icon: Icons.notifications),
-    PinteresButton(
-        onPressed: () {
-          print('Icon supervised_user_circle');
-        },
-        icon: Icons.supervised_user_circle),
-  ];
+  PinteresMenu({
+    this.mostrar,
+    this.backgroundColor = Colors.white,
+    this.activeColor = Colors.black,
+    this.inactiveColor = Colors.blueGrey,
+    @required this.items,
+  });
+
+  // final List<PinteresButton> items = [
+  //   PinteresButton(
+  //       onPressed: () {
+  //         print('Icon pie_chart');
+  //       },
+  //       icon: Icons.pie_chart),
+  //   PinteresButton(
+  //       onPressed: () {
+  //         print('Icon search');
+  //       },
+  //       icon: Icons.search),
+  //   PinteresButton(
+  //       onPressed: () {
+  //         print('Icon notifications');
+  //       },
+  //       icon: Icons.notifications),
+  //   PinteresButton(
+  //       onPressed: () {
+  //         print('Icon supervised_user_circle');
+  //       },
+  //       icon: Icons.supervised_user_circle),
+  // ];
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => new _MenuModel(),
       child: AnimatedOpacity(
-        duration: Duration(milliseconds: 350),
-        opacity: mostrar ? 1 : 0,
-        child: _PinterestMenuBackground(
-          child: _MenuItems(items),
-        ),
-      ),
+          duration: Duration(milliseconds: 350),
+          opacity: mostrar ? 1 : 0,
+          child: Builder(
+            builder: (BuildContext context) {
+              Provider.of<_MenuModel>(context).backgroundColor =
+                  this.backgroundColor;
+              Provider.of<_MenuModel>(context).activeColor = this.activeColor;
+              Provider.of<_MenuModel>(context).inactiveColor =
+                  this.inactiveColor;
+              return _PinterestMenuBackground(
+                child: _MenuItems(items),
+              );
+            },
+          )),
     );
   }
 }
@@ -62,12 +81,14 @@ class _PinterestMenuBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Provider.of<_MenuModel>(context).backgroundColor;
+
     return Container(
       child: child,
       width: 250,
       height: 60,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: backgroundColor,
           borderRadius: BorderRadius.all(
             Radius.circular(100),
           ),
@@ -112,6 +133,8 @@ class _PinteresMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemSeleccionado = Provider.of<_MenuModel>(context).itemSeleccionado;
 
+    final menuModel = Provider.of<_MenuModel>(context);
+
     return GestureDetector(
       onTap: () {
         Provider.of<_MenuModel>(context, listen: false).itemSeleccionado =
@@ -123,7 +146,9 @@ class _PinteresMenuButton extends StatelessWidget {
         child: Icon(
           item.icon,
           size: (itemSeleccionado == index) ? 35 : 25,
-          color: (itemSeleccionado == index) ? Colors.black : Colors.blueGrey,
+          color: (itemSeleccionado == index)
+              ? menuModel.activeColor
+              : menuModel.inactiveColor,
         ),
       ),
     );
@@ -132,6 +157,10 @@ class _PinteresMenuButton extends StatelessWidget {
 
 class _MenuModel with ChangeNotifier {
   int _itemSeleccionado = 0;
+
+  Color backgroundColor = Colors.white;
+  Color activeColor = Colors.black;
+  Color inactiveColor = Colors.blueGrey;
 
   int get itemSeleccionado => this._itemSeleccionado;
   set itemSeleccionado(int index) {

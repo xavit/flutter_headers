@@ -34,6 +34,31 @@ class _PinterestMenuLocation extends StatelessWidget {
         child: Align(
           child: PinteresMenu(
             mostrar: mostrar,
+            // backgroundColor: Colors.red,
+            // activeColor: Colors.green,
+            // inactiveColor: Colors.yellow,
+            items: [
+              PinteresButton(
+                  onPressed: () {
+                    print('Icon pie_chart');
+                  },
+                  icon: Icons.pie_chart),
+              PinteresButton(
+                  onPressed: () {
+                    print('Icon search');
+                  },
+                  icon: Icons.search),
+              PinteresButton(
+                  onPressed: () {
+                    print('Icon notifications');
+                  },
+                  icon: Icons.notifications),
+              PinteresButton(
+                  onPressed: () {
+                    print('Icon supervised_user_circle');
+                  },
+                  icon: Icons.supervised_user_circle),
+            ],
           ),
         ),
       ),
@@ -58,7 +83,7 @@ class _PinteresGridState extends State<PinteresGrid> {
     super.initState();
     controller.addListener(() {
       // print('Scroll-Listener ${controller.offset}');
-      if (controller.offset > scroollAnterior) {
+      if (controller.offset > scroollAnterior && controller.offset > 150) {
         Provider.of<_MenuModel>(context, listen: false).mostrar = false;
       } else {
         Provider.of<_MenuModel>(context, listen: false).mostrar = true;
