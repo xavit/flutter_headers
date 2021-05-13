@@ -8,6 +8,7 @@ class EmergencyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // body: PageHeader(),
+      // backgroundColor: Colors.redAccent,
       body: Center(
         child: BotonGordoPage(),
       ),
