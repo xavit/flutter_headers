@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:headers/src/widgets/boton_gordo.dart';
 import 'package:headers/src/widgets/headers.dart';
+import 'package:animate_do/animate_do.dart';
 
 class ItemBoton {
   final IconData icon;
@@ -43,14 +44,17 @@ class EmergencyPage extends StatelessWidget {
     ];
 
     List<Widget> itemMap = items
-        .map((item) => BotonGordo(
-              icon: item.icon,
-              text: item.texto,
-              color1: item.color1,
-              color2: item.color2,
-              onPress: () {
-                print('hola');
-              },
+        .map((item) => FadeInLeftBig(
+              // duration: Duration(microseconds: 450),
+              child: BotonGordo(
+                icon: item.icon,
+                text: item.texto,
+                color1: item.color1,
+                color2: item.color2,
+                onPress: () {
+                  print('hola');
+                },
+              ),
             ))
         .toList();
 
@@ -62,6 +66,7 @@ class EmergencyPage extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 200),
             child: ListView(
+              physics: BouncingScrollPhysics(), //poner esto en Android
               children: [
                 SizedBox(
                   height: 80,
@@ -70,15 +75,38 @@ class EmergencyPage extends StatelessWidget {
               ],
             ),
           ),
-          IconHeader(
-            icon: FontAwesomeIcons.plus,
-            titulo: 'Asistencia Médica',
-            subtitulo: 'Has solicitado',
-            color1: Color(0xff536CF6),
-            color2: Color(0xff66A9F2),
-          )
+          _Encabezado()
         ],
       ),
+    );
+  }
+}
+
+class _Encabezado extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        IconHeader(
+          icon: FontAwesomeIcons.plus,
+          titulo: 'Asistencia Médica',
+          subtitulo: 'Has solicitado',
+          color1: Color(0xff536CF6),
+          color2: Color(0xff66A9F2),
+        ),
+        Positioned(
+            right: 0,
+            top: 45,
+            child: RawMaterialButton(
+              onPressed: () {},
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(15),
+              child: FaIcon(
+                FontAwesomeIcons.ellipsisV,
+                color: Colors.white,
+              ),
+            ))
+      ],
     );
   }
 }
