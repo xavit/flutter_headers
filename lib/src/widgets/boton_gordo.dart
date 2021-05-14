@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BotonGordoPage extends StatelessWidget {
+class BotonGordo extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color color1;
   final Color color2;
   final Function onPress;
 
-  BotonGordoPage({
+  BotonGordo({
     this.icon = FontAwesomeIcons.question,
     this.text = 'Card Title',
     this.color1,
