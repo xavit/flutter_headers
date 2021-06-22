@@ -6,8 +6,75 @@ class SliverListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _ListaTareas(),
+      // body: _ListaTareas(),
+      body: _MainScroll(),
     );
+  }
+}
+
+class _MainScroll extends StatelessWidget {
+  final items = [
+    _ListItem('Orange', Color(0xffF08F66)),
+    _ListItem('Family', Color(0xffF2A38A)),
+    _ListItem('Subscriptions', Color(0xffF7CDD5)),
+    _ListItem('Books', Color(0xffFCEBAF)),
+    _ListItem('Orange', Color(0xffF08F66)),
+    _ListItem('Family', Color(0xffF2A38A)),
+    _ListItem('Subscriptions', Color(0xffF7CDD5)),
+    _ListItem('Books', Color(0xffFCEBAF)),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        // SliverAppBar(
+        //   floating: true,
+        //   elevation: 0,
+        //   backgroundColor: Colors.red,
+        //   title: _Titulo(),
+        // ),
+        SliverPersistentHeader(
+          floating: true,
+          delegate: _SliverCustomHeaderDelegate(),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(items),
+        ),
+      ],
+    );
+  }
+}
+
+class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double minheight;
+  final double maxheight;
+  final Widget child;
+  _SliverCustomHeaderDelegate({
+    this.minheight,
+    this.maxheight,
+    this.child,
+  });
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement maxExtent
+  double get maxExtent => maxheight;
+
+  @override
+  // TODO: implement minExtent
+  double get minExtent => minheight;
+
+  @override
+  bool shouldRebuild(_SliverCustomHeaderDelegate oldDelegate) {
+    return maxheight != oldDelegate.maxheight ||
+        minheight != oldDelegate.minheight ||
+        child != oldDelegate.child;
   }
 }
 
